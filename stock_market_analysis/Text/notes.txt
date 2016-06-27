@@ -1,0 +1,2 @@
+Notes:
+- tickers with '^' or '.' in them are being excluded
