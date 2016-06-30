@@ -1,4 +1,6 @@
-from stock_market_analysis.Data.Tickers import Tickers
+import django
+django.setup()
 
-for t in Tickers.get_all_tickers():
-    print(t)
+from stock_market_analysis.Data.Data_Gather import DataGather
+
+DataGather.get_historical_data()

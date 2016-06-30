@@ -1,2 +1,3 @@
 Notes:
 - tickers with '^' or '.' in them are being excluded
+- stock model has field day which is an int value representing the amount of days since the start date in constants
