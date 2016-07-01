@@ -1,3 +1,9 @@
 Notes:
 - tickers with '^' or '.' in them are being excluded
 - stock model has field day which is an int value representing the amount of days since the start date in constants
+
+
+TODO:
+- add decorator that logs and times processes
+- fix command to have additional arguments to delete certain data
+- add more tests

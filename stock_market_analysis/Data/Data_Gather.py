@@ -22,10 +22,13 @@ class DataGather:
         logger.info("Finished gathering daily data. Total time: {}".format(str(end-start)))
 
     @staticmethod
-    def get_historical_data(start=INITIAL_DAY):
+    def get_historical_data(start=INITIAL_DAY, ticker=None):
         logger.info("Beginning to gather historical data from {}.".format(start.isoformat()))
         start_time = datetime.datetime.now()
-        tickers = Tickers.get_all_tickers()
+        if ticker is None:
+            tickers = Tickers.get_all_tickers()
+        else:
+            tickers = [ticker.upper()]
         for ticker in tickers:
             logger.info("Gathering data for: {}".format(ticker))
             DataMapper.map_historical_data(ticker, DataFetcher.get_historical_stock_data(ticker, start, TradingDay.get_today()))

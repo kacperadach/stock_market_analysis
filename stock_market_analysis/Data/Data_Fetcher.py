@@ -6,7 +6,7 @@ from constants import logger
 
 
 # class used to fetch daily and historical data for a given ticker
-class DataFetcher(object):
+class DataFetcher:
 
     @staticmethod
     def get_today_stock_data(ticker):
@@ -24,22 +24,42 @@ class DataFetcher(object):
         except YQLQueryError:
             logger.error("Daily data not found for {}".format(ticker))
         except Exception as e:
-            logger.error("Unexpected error occured: {}".format(e))
+            logger.error("Unexpected error occurred: {}".format(e))
         return {}
 
     @staticmethod
     def get_historical_stock_data(ticker, start_date, end_date):
+        arr = []
         try:
             s = Share(ticker)
             start_date, end_date = start_date.isoformat(), end_date.isoformat()
             data = s.get_historical(start_date, end_date)
-            arr = []
             for day in data:
                 arr.append(DataFetcher._extract_data(day))
-            return arr
+            arr.reverse() # this makes sure that the oldest day is first so the day field is set to 0
         except YQLQueryError:
             logger.error("Historical data not found for {}".format(ticker))
-        return []
+        return arr
+
+    @staticmethod
+    def _extract_data(data):
+        extracted_data = {
+            'Open': None,
+            'Close': None,
+            'High': None,
+            'Low': None,
+            'Volume': None,
+            'Date': None,
+        }
+        for key, val in data.items():
+            if key == 'Volume':
+                extracted_data[key] = int(val)
+            elif key == 'Date':
+                date = datetime.datetime.strptime(val, '%Y-%m-%d')
+                extracted_data[key] = datetime.date(date.year, date.month, date.day)
+            elif key in ('Open', 'Close', 'High', 'Low', 'Volume', 'Date'):
+                extracted_data[key] = float(val)
+        return extracted_data
 
     @staticmethod
     def get_company_info(ticker):
@@ -74,18 +94,6 @@ class DataFetcher(object):
         except YQLQueryError:
             logger.error("Error gathering data for {}".format(ticker))
         return None
-
-    @staticmethod
-    def _extract_data(data):
-        for key, val in data.items():
-            if key == 'Volume':
-                data[key] = int(val)
-            elif key == 'Date':
-                date = datetime.datetime.strptime(val, '%Y-%m-%d')
-                data[key] = datetime.date(date.year, date.month, date.day)
-            elif key in ('Open', 'Close', 'High', 'Low', 'Volume', 'Date'):
-                data[key] = float(val)
-        return data
 
     @staticmethod
     def _convert_market_cap(cap):

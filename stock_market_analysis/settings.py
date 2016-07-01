@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stock_market_analysis.Data',
+    'nested_inline',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -80,6 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'django_db',
+        'TEST_NAME': 'test_django_db',
         'USER': 'kacper',
         'PASSWORD': '',
         'HOST': 'localhost',

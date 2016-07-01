@@ -1,6 +1,5 @@
 import datetime
 
-from constants import get_day_int
 from models import *
 
 
@@ -11,7 +10,7 @@ class DataMapper:
     def map_historical_data(ticker, data):
         try:
             for d in data:
-                if DataMapper._is_valid_data(data):
+                if DataMapper._is_valid_data(d):
                     DataMapper.map_data_from_day(ticker, d['Date'], d)
         except TypeError:
             logger.warning("Invalid data given for {} while mapping historical data".format(ticker))
@@ -19,7 +18,7 @@ class DataMapper:
     @staticmethod
     def map_data_from_day(ticker, date, data):
         s = Stock.objects.get_or_create(ticker=ticker)[0]
-        dd = DayData.objects.get_or_create(ticker=s, day=(get_day_int(date)), date=date)[0]
+        dd = DayData.objects.get_or_create(ticker=s, day=(DayData.get_day_int(ticker)), date=date)[0]
         dd.update_values(data)
         s.save()
 
