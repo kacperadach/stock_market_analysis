@@ -5,6 +5,7 @@ from models import *
 
 class AdvancedDataInline(NestedStackedInline):
     model = AdvancedStats
+    max_num = 10
 
 
 class StockDataInline(NestedStackedInline):
@@ -12,6 +13,8 @@ class StockDataInline(NestedStackedInline):
     extra = 1
     verbose_name = 'Daily Stock Data'
     inlines = [AdvancedDataInline]
+    ordering = ('-day',)
+    max_num = 10
 
 
 class StockAdmin(NestedModelAdmin):

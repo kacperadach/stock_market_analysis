@@ -2,8 +2,30 @@ Notes:
 - tickers with '^' or '.' in them are being excluded
 - stock model has field day which is an int value representing the amount of days since the start date in constants
 
+ALGORITHMS:
+   - because my algorithms will not analyze in real time, long/short orders will be decided after market close.
+   - Then the next day after close, the algorithm will check the stock to see if it was within the percent tolerance
+     range during that day.
+         - if it was the order will be filled in with appropriate information (start_price)
+         - if not it will delete the order
+     - I believe this is fair because if the algorithm had realtime data it could just fill these orders during the day
+     and my implementation is assuming it was capable of this
+
+     - i might change the update function to take 2 or maybe even 4 parameters for the percent tolerance
+        - percent for long/short
+        or
+        - percent higher, percent lower for both long/short
+
+    - all algorithms should be parameterized by a
 
 TODO:
-- add decorator that logs and times processes
 - fix command to have additional arguments to delete certain data
 - add more tests
+- implement Algorithms app
+    - add at least 1 algorithm
+    - add functionality to run on historical data
+
+Indicators to add:
+- universal momentum oscilator
+- ultimate oscillator
+- more oscillators (easy to implement readings when range is restricted)

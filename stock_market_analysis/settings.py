@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'stock_market_analysis.Data',
+    'stock_market_analysis.BaseAlgorithmApp',
+    'stock_market_analysis.Algorithms',
     'nested_inline',
 ]
 
